@@ -38,7 +38,7 @@ pip install -U vllm --pre --extra-index-url https://wheels.vllm.ai/nightly
 
 #### :paw_prints: Paths
 
-The main workspace is `dev_root/proj_tag` set in the [`src/configs/config_base.py#L16-L18`](src/configs/config_base.py#L16-L18) file.
+The main workspace is `dev_root/proj_tag` set in the [`src/configs/config_base.py#L22-L24`](src/configs/config_base.py#L22-L24) file.
 
 ```python
 # hparams for directories 
@@ -85,7 +85,7 @@ ${dev_root}:
 
 ## Inference
 
-When running inference scripts for the first time, checkpoints will be **automatically** downloaded to the `checkpoints` folder.
+When running inference scripts for the first time, checkpoints will be ***automatically*** downloaded to the `checkpoints` folder.
 
 ```bash
 ${dev_root}:
@@ -101,7 +101,7 @@ ${dev_root}:
 
 | checkpoints | :hugs: hf model repo | license |
 |:--:|:--:|:--:|
-| translator and surrogate-trained vision encoders | [`link`](https://huggingface.co/kaiyuyue/zero-checkpoints/tree/main) | [CC-BY-NC 4.0](LICENSE) |
+| translators and surrogate-trained vision encoders | [`link`](https://huggingface.co/kaiyuyue/zero-checkpoints/tree/main) | [CC-BY-NC 4.0](LICENSE) |
 
 #### :paw_prints: Running Vision-Language Models
 
@@ -192,7 +192,7 @@ ${dev_root}:
             |--llava_v1_5_mix665k_shuffled_full.json    
 ```
 
-The dataset is registered in [`src/loader.py#L16-L33`](src/loader.py#L16-L33).
+The dataset is registered in [`src/loader.py#L22-L39`](src/loader.py#L22-L39).
 
 **2. GenQA-500K-Text-Instructions**
 
@@ -211,7 +211,10 @@ Or it can be also created by running the following script:
 **3. Bring Your Own Dataset**
 
 Follow the same structure above to prepare your dataset, including the image folder and JSON file.
-Then register the dataset in [`src/loader.py#L16-L33`](src/loader.py#L16-L33).
+Then register the dataset in [`src/loader.py#L22-L39`](src/loader.py#L22-L39).
+We disable on-the-fly shuffling to ensure reproducibility with a fixed data order.
+Instead, we pre-shuffle each source dataset and mix them using evenly spaced insertion based on dataset sizes.
+See [`tools/mix_genqa-500k_llava-665k.py`](tools/mix_genqa-500k_llava-665k.py) for details.
 
 #### :paw_prints: Saving Checkpoints 
 
@@ -298,7 +301,7 @@ git clone https://github.com/kaiyuyue/lm-evaluation-harness.git
 cd lm-evaluation-harness && pip install -e .
 ```
 
-**Note**: The only difference between these versions and the official versions is that we disable `accelerate` in [lmms-eval/lmms_eval/evaluator.py](https://github.com/kaiyuyue/lmms-eval/blob/main/lmms_eval/evaluator.py#L51) and [lm-evaluation-harness/lm_eval/evaluator.py](https://github.com/kaiyuyue/lm-evaluation-harness/blob/main/lm_eval/evaluator.py#L51).
+**Note**: The only difference between these versions and the official versions is that we disable `accelerate` in [`lmms-eval/lmms_eval/evaluator.py`](https://github.com/kaiyuyue/lmms-eval/blob/main/lmms_eval/evaluator.py#L51) and [`lm-evaluation-harness/lm_eval/evaluator.py`](https://github.com/kaiyuyue/lm-evaluation-harness/blob/main/lm_eval/evaluator.py#L51).
 We use `torchrun` and directly call their evaluator APIs.
 Definitely, you can use the official versions, but need to add few lines of code to disable `accelerate` by tracking the `DISABLE_ACCELERATOR` in the above two `evaluator.py` files.
 
@@ -364,7 +367,7 @@ Main results are in the paper.
 To add new models in this code like the Qwen3 family, add the following files:
 
 - [`src/configs/qwen`](src/configs/qwen): model configuration for training, inference, and evaluation
-- [`src/build_decoder.py#L143`](src/build_decoder.py#L143): loading and building full-size and surrogate language models
+- [`src/build_decoder.py#L149`](src/build_decoder.py#L149): loading and building full-size and surrogate language models
 - [`src/build_encoder.py`](src/build_encoder.py): loading other vision encoders if needed
 - [`src/methods/engine_ar_instruction_qwen.py`](src/methods/engine_ar_instruction_qwen.py): forward pass for language and vision-language models
 - [`src/models/generator_qwen.py`](src/models/generator_qwen.py): output generation for evaluation with and without vLLM
@@ -385,7 +388,7 @@ After running it, the trajectories are
 
 ## License
 
-This project is licensed under the CC-BY-NC 4.0 License.
+This project is licensed under the CC-BY-NC 4.0 license.
 See [LICENSE](LICENSE) for details.
 
 ## Acknowledgements

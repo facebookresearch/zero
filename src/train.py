@@ -110,7 +110,7 @@ def main(cfg):
     cfg = set_dtype(cfg)
     print(f"ptdtype: {cfg.ptdtype}, fpdtype: {cfg.fpdtype}")
 
-    # load encoder from huggingface
+    # load encoder
     encoder, image_processor, image_input_size = load_encoder(
         cfg=cfg, model_name=cfg.encoder_model_name
     )
@@ -127,7 +127,7 @@ def main(cfg):
         decoder=decoder,
     )  # fsdp will handle the model device
 
-    # load pretrained weights before wrapping model with ddp/fsdp
+    # load pretrained or resumed weights before wrapping model with ddp/fsdp
     if cfg.load_pretrained:
         dry_load_mode = is_giant_model and not master_process
         if dry_load_mode:
@@ -277,6 +277,11 @@ def main(cfg):
 
     # init ddp/fsdp
     if cfg.fsdp_mode:
+        # NOTE: the encoder's transformer layer can be wrapped with fsdp
+        # here we only wrap the decoder transformer layer because
+        # the encoder is small like 500M parameters compared to the decoder
+        # if the encoder is large like 6B, wrapping it with fsdp will be helpful
+        # also need to add the encoder part to the activation checkpointing
         print(f"fsdp target layer: {FSDP_DECODER_LAYER}")
 
         # set wrap policy

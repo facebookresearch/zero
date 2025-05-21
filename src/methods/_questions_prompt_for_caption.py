@@ -1,5 +1,10 @@
-# NOTE:
-# for zero-shot grafting, we would like to treat the image tokens as natural language tokens,
+# Copyright (c) Meta Platforms, Inc. and affiliates.
+# All rights reserved.
+
+# This source code is licensed under the license found in the
+# LICENSE file in the root directory of this source tree.
+
+# NOTE: for zero-shot grafting, we would like to treat the image tokens as natural language tokens,
 # so we use those template prompts to wrap the image tokens
 # to make them more natural for the full-size language models to process
 template_for_image_tokens = [

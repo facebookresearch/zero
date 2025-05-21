@@ -1,3 +1,9 @@
+# Copyright (c) Meta Platforms, Inc. and affiliates.
+# All rights reserved.
+
+# This source code is licensed under the license found in the
+# LICENSE file in the root directory of this source tree.
+
 from transformers.models.clip.modeling_clip import CLIPVisionModel
 from transformers.models.clip.image_processing_clip import CLIPImageProcessor
 

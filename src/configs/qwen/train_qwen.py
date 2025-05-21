@@ -135,14 +135,16 @@ if TRAINING_STAGE == "finetune-encoder" and IS_SURROGATE:
     # this is our 2nd training stage in the paper,
     # we train the vision encoders on top of surrogate models
     # thus, we need to load the translators from the pretraining stage
-    cfg.load_pretrained = bool(1)
 
-    if cfg.qwen_model_scale == "4":
-        cfg.load_pretrained_path = osp.join(
-            cfg.ckpt_dir,
-            "qwen3_4b-srgt_pt",
-            "ckpt_01_0004393.pth",
-        )
+    # cfg.load_pretrained = bool(1)
+
+    # if cfg.qwen_model_scale == "4":
+    #     cfg.load_pretrained_path = osp.join(
+    #         cfg.ckpt_dir,
+    #         "none",
+    #         "none",
+    #     )
+    pass
 
 # NOTE: resuming training
 cfg.resume = bool(0)
@@ -151,14 +153,16 @@ if TRAINING_STAGE == "finetune-decoder" and not IS_SURROGATE:
     # this is our 3rd training stage in the paper,
     # we finetune the decoder on top of the pretrained vision encoders
     # thus, we need to load the surrogate-trained encoders from the 2nd stage
-    cfg.resume = bool(1)
 
-    if cfg.qwen_model_scale == "4":
-        cfg.resume_ckpt_path = osp.join(
-            cfg.ckpt_dir,
-            "none",
-            "none",
-        )
+    # cfg.resume = bool(1)
+
+    # if cfg.qwen_model_scale == "4":
+    #     cfg.resume_ckpt_path = osp.join(
+    #         cfg.ckpt_dir,
+    #         "none",
+    #         "none",
+    #     )
+    pass
 
 # for saving checkpoints
 training_stage = (

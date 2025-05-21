@@ -101,7 +101,7 @@ ${dev_root}:
 
 | checkpoints | :hugs: hf model repo | license |
 |:--:|:--:|:--:|
-| translators and surrogate-trained vision encoders | [`link`](https://huggingface.co/kaiyuyue/zero-checkpoints/tree/main) | [CC-BY-NC 4.0](LICENSE) |
+| translators and surrogate-trained vision encoders | [`link`](https://huggingface.co/tomg-group-umd/zero-model-checkpoints) | [CC-BY-NC 4.0](LICENSE) |
 
 #### :paw_prints: Running Vision-Language Models
 

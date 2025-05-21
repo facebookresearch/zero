@@ -5,10 +5,12 @@
 # LICENSE file in the root directory of this source tree.
 
 """
-HF repo: https://huggingface.co/kaiyuyue/zero-checkpoints/tree/main
+HF model repo: https://huggingface.co/tomg-group-umd/zero-model-checkpoints/tree/main
 """
 
-BASE_REPO_URL = "https://huggingface.co/kaiyuyue/zero-checkpoints/resolve/main/"
+BASE_REPO_URL = (
+    "https://huggingface.co/tomg-group-umd/zero-model-checkpoints/resolve/main/"
+)
 
 HF_HUB_LINKS = {
     "3": {

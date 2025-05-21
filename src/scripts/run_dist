@@ -1,0 +1,57 @@
+#!/usr/bin/env bash
+
+# inputs
+INPUT_SCRIPT=$1
+INPUT_ARGVS=${@:2}
+
+echo "+ INPUT_ARGVS: $INPUT_ARGVS"
+
+# if the input script is not found, exit
+if [ ! -f $INPUT_SCRIPT ]; then
+    echo "$INPUT_SCRIPT not found"
+    exit 1
+fi
+
+# modules
+nvidia-smi
+
+# envs
+export CUDA_LAUNCH_BLOCKING=1
+export OMP_NUM_THREADS=1
+
+# debug
+# export NCCL_DEBUG=INFO
+# export TORCH_CPP_LOG_LEVEL=INFO
+# export TORCH_DISTRIBUTED_DEBUG=INFO
+
+# info
+NODES_ARRAY=($(scontrol show hostnames $SLURM_JOB_NODELIST))
+HEAD_NODE=${NODES_ARRAY[0]}
+HEAD_NODE_IP=$(srun --nodes=1 --ntasks=1 -w "$HEAD_NODE" hostname --ip-address | awk '{print $1}')
+WORLD_SIZE=$SLURM_JOB_NUM_NODES
+echo "+ NODES_ARRAY: ${NODES_ARRAY[@]}"
+echo "+ HEAD_NODE: $HEAD_NODE"
+echo "+ HEAD_NODE_IP: $HEAD_NODE_IP"
+echo "+ WORLD_SIZE: $WORLD_SIZE"
+
+# nums of GPUs
+NGPUS=$(nvidia-smi -L | wc -l)
+echo "+ NGPUS: $NGPUS"
+if [ $NGPUS -eq 0 ]; then
+    echo "No GPU found"
+    exit 1
+fi
+
+# Find an available port and use it
+PORT=$(python3 -c 'import socket; s = socket.socket(); s.bind(("", 0)); print(s.getsockname()[1]); s.close();')
+
+# fire up
+set -x
+srun torchrun \
+    --rdzv_id $RANDOM \
+    --rdzv_backend c10d \
+    --rdzv-endpoint $HEAD_NODE_IP:$PORT \
+    --nnode $WORLD_SIZE \
+    --nproc_per_node $NGPUS \
+    $INPUT_SCRIPT \
+    $INPUT_ARGVS

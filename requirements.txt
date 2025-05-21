@@ -1,0 +1,10 @@
+transformers
+wandb
+dill
+peft
+tiktoken
+datasets
+blobfile
+torch
+torchvision
+numpy==1.26.4

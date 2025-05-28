@@ -180,6 +180,7 @@ def main(cfg):
             num_fewshot=num_fewshot,
             task_manager=task_manager,
             batch_size=cfg.batch_size,
+            distributed_executor_backend="torchrun",
         )
 
         # wait for all processes to complete

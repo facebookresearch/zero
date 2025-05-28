@@ -1,8 +1,8 @@
 ## Zero-Shot Vision Encoder Grafting via LLM Surrogates
 
-The code is minimally structured for general language and vision-language model training, with torch FSDP/DDP in a single `train.py` file.
+The code is minimally :bubbles: structured for general language and vision-language model training, with torch FSDP/DDP in a single `train.py` file.
 Models are loaded from [transformers](https://github.com/huggingface/transformers).
-Evaluation is supported on [vLLM](https://github.com/vllm-project/vllm) with tensor parallelism using `torchrun`.
+Evaluation is supported on [vLLM](https://github.com/vllm-project/vllm) with tensor parallelism via `torchrun`, directly calling [lmms-eval](https://github.com/EvolvingLMMs-Lab/lmms-eval) and [lm-evaluation-harness](https://github.com/EleutherAI/lm-evaluation-harness) through their APIs.
 
 <br>
 <p align="center">
@@ -107,7 +107,7 @@ ${dev_root}:
 
 This inference demonstrates zero-shot grafting ability of our surrogate-trained vision encoders onto full-size Llama models.
 All commands can run on a single or multiple GPUs. 
-The results shown are generated using a single NVIDIA RTX A5000 (23.9GB GPU memory).
+The results shown are generated using a single NVIDIA RTX A5000 with 23.9GB GPU memory and 128GB CPU memory.
 
 ```bash
 # llama-3.2 3B
@@ -212,7 +212,12 @@ Or it can be also created by running the following script:
 
 Follow the same structure above to prepare your dataset, including the image folder and JSON file.
 Then register the dataset in [`src/loader.py#L22-L39`](src/loader.py#L22-L39).
-We disable on-the-fly shuffling to ensure reproducibility with a fixed data order.
+
+To use the absolute full path of the image, simply add the `full_path` key in the JSON file, see [`src/loader.py#L158-L161`](src/loader.py#L158-L161).
+
+To skip the image processor in the loader and make the loader return raw PIL images, please set `cfg.simple_raw_image_mode = bool(1)` in the config file, see [`src/loader.py#L131`](src/loader.py#L131).
+
+In default, we disable on-the-fly shuffling to ensure reproducibility with a fixed data order.
 Instead, we pre-shuffle each source dataset and mix them using evenly spaced insertion based on dataset sizes.
 See [`tools/mix_genqa-500k_llava-665k.py`](tools/mix_genqa-500k_llava-665k.py) for details.
 
@@ -294,16 +299,22 @@ Simply set `cfg.enable_lora = bool(1)` in the training config file, and then run
 #### :paw_prints: Install Eval Toolkits
 
 ```bash
-git clone https://github.com/kaiyuyue/lmms-eval.git
+git clone https://github.com/EvolvingLMMs-Lab/lmms-eval.git
+# before installing, please see the note below
 cd lmms-eval && pip install -e .
 
-git clone https://github.com/kaiyuyue/lm-evaluation-harness.git
+git clone https://github.com/EleutherAI/lm-evaluation-harness.git
+# before installing, please see the note below
 cd lm-evaluation-harness && pip install -e .
 ```
 
-**Note**: The only difference between these versions and the official versions is that we disable `accelerate` in [`lmms-eval/lmms_eval/evaluator.py`](https://github.com/kaiyuyue/lmms-eval/blob/main/lmms_eval/evaluator.py#L51) and [`lm-evaluation-harness/lm_eval/evaluator.py`](https://github.com/kaiyuyue/lm-evaluation-harness/blob/main/lm_eval/evaluator.py#L51).
-We use `torchrun` and directly call their evaluator APIs.
-Definitely, you can use the official versions, but need to add few lines of code to disable `accelerate` by tracking the `DISABLE_ACCELERATOR` in the above two `evaluator.py` files.
+> [!NOTE]
+> Since we call their evaluation APIs using `torchrun` without saving or converting model weights, need to disable default distributed executor `accelerate` in their evaluator files.
+>
+> Please refer to [[PR #3018](https://github.com/EleutherAI/lm-evaluation-harness/pull/3018/files)] for `lm-evaluation-harness` and [[Merged PR #680](https://github.com/EvolvingLMMs-Lab/lmms-eval/pull/680/files)] for `lmms-eval` to see how to add a few lines of code to enable `torchrun` for distributed evaluation.
+>
+> The modifications are simple, won't affect their default functionality with `accelerate`, and just take a few seconds to apply.
+> It is recommended to apply these changes before installing the packages.
 
 #### :paw_prints: OpenAI Key
 

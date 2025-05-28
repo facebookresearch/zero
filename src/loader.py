@@ -154,6 +154,12 @@ class JsonDataset(Dataset):
                 item["fold"],
                 item["image"],
             )
+
+            # sometimes we just want to use the absolute full path
+            # without putting all the images in the same folder :)
+            if "full_path" in item.keys():
+                image_path = item["full_path"]
+
             image = Image.open(image_path).convert("RGB")
 
             if self.enable_image_aug:

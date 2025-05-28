@@ -209,6 +209,7 @@ def main(cfg):
             num_fewshot=cfg.num_fewshot,
             task_manager=task_manager,
             batch_size=cfg.batch_size,
+            distributed_executor_backend="torchrun",
             cli_args=cfg,
         )
 

@@ -248,26 +248,6 @@ def load_hf_qwen3(cfg):
             inference_mode=cfg.inference_mode,
         )
 
-        # # recipe from llava-13B-lora
-        # # ref: https://huggingface.co/liuhaotian/llava-v1.5-13b-lora/blob/main/adapter_config.json
-        # peft_config = LoraConfig(
-        #     r=128,
-        #     lora_alpha=256,
-        #     target_modules=[
-        #         "q_proj",
-        #         "k_proj",
-        #         "v_proj",
-        #         "o_proj",
-        #         "down_proj",
-        #         "gate_proj",
-        #         "up_proj",
-        #     ],
-        #     bias="none",
-        #     lora_dropout=0.05,
-        #     task_type="CAUSAL_LM",
-        #     inference_mode=cfg.inference_mode,
-        # )
-
         print(f"peft_config: {peft_config}")
         model = get_peft_model(model, peft_config)
         model.to(cfg.ptdtype)
@@ -288,6 +268,11 @@ helper functions for building surrogate model by inserting translators
 def build_surrogate_model(cfg, model, model_attr="model", num_hidden_layers=-1):
     """
     build surrogate model by inserting translators
+
+    Args:
+        model_attr: the attribute name of the model subclass of the root model,
+            e.g., model.model is default for llama3 and qwen3
+                  model.language_model is default for gemma-3
     """
     model_name = cfg.decoder_hf_model_name
 

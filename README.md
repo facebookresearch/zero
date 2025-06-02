@@ -9,6 +9,20 @@ Evaluation is supported on [vLLM](https://github.com/vllm-project/vllm) with ten
     <img src=".github/teaser.jpg">
 </p>
 
+## Table of Contents
+
+- [Dependencies](#dependencies)
+- [Preparing](#preparing)
+- [`cd ./src`](#cd-src)
+- [Inference](#inference)
+- [Training](#training)
+- [Evaluation](#evaluation)
+- [Integrating New Models](#integrating-new-models)
+- [Plotting Prediction Trajectory](#plotting-prediction-trajectory)
+- [License](#license)
+- [Acknowledgements](#acknowledgements)
+
+
 ## Dependencies
 
 ```bash

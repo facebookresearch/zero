@@ -37,8 +37,8 @@ from loader import build_hf_dataloader
 # ====== global settings ======
 MODEL_FAMILY = "llama"  # llama | gemma | qwen
 
-# if True, use torchrun to launch
-# if False, use python3 to launch
+# if bool(0), use torchrun to launch
+# if bool(1), use python3 to launch
 LOAD_BIG_MODEL = bool(1)  # default: True
 
 # for plotting

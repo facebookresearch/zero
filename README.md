@@ -1,6 +1,6 @@
 ## Zero-Shot Vision Encoder Grafting via LLM Surrogates
 
-*International Conference on Computer Vision (ICCV), 2025* :hibiscus:
+*International Conference on Computer Vision (ICCV), 2025 | Hawai'i* :hibiscus:
 
 <br>
 
@@ -24,6 +24,7 @@ Evaluation is supported on [vLLM](https://github.com/vllm-project/vllm) with ten
 - [Integrating New Models](#integrating-new-models)
 - [Plotting Prediction Trajectory](#plotting-prediction-trajectory)
 - [License](#license)
+- [Citation](#citation)
 - [Acknowledgements](#acknowledgements)
 
 
@@ -426,10 +427,10 @@ If you find our work helpful in your research, please cite it as:
 
 ```
 @inproceedings{yue2025zero,
-  title={Zero-Shot Vision Encoder Grafting via LLM Surrogates},
-  author={Yue, Kaiyu and Singla, Vasu and Jia, Menglin and Kirchenbauer, John and Qadri, Rifaa and Cai, Zikui and Bhatele, Abhinav and Huang, Furong and Goldstein, Tom},
-  booktitle={International Conference on Computer Vision (ICCV)},
-  year={2025}
+  title     = {Zero-Shot Vision Encoder Grafting via LLM Surrogates},
+  author    = {Yue, Kaiyu and Singla, Vasu and Jia, Menglin and Kirchenbauer, John and Qadri, Rifaa and Cai, Zikui and Bhatele, Abhinav and Huang, Furong and Goldstein, Tom},
+  booktitle = {International Conference on Computer Vision (ICCV)},
+  year      = {2025}
 }
 ```
 

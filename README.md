@@ -1,5 +1,9 @@
 ## Zero-Shot Vision Encoder Grafting via LLM Surrogates
 
+*International Conference on Computer Vision (ICCV), 2025* :hibiscus:
+
+<br>
+
 The code is minimally :bubbles: structured for general language and vision-language model training, with torch FSDP/DDP in a single `train.py` file.
 Models are loaded from [transformers](https://github.com/huggingface/transformers).
 Evaluation is supported on [vLLM](https://github.com/vllm-project/vllm) with tensor parallelism via `torchrun`, directly calling [lmms-eval](https://github.com/EvolvingLMMs-Lab/lmms-eval) and [lm-evaluation-harness](https://github.com/EleutherAI/lm-evaluation-harness) through their APIs.
@@ -415,6 +419,19 @@ After running it, the trajectories are
 
 This project is licensed under the CC-BY-NC 4.0 license.
 See [LICENSE](LICENSE) for details.
+
+## Citation
+
+If you find our work helpful in your research, please cite it as:
+
+```
+@inproceedings{yue2025zero,
+  title={Zero-Shot Vision Encoder Grafting via LLM Surrogates},
+  author={Yue, Kaiyu and Singla, Vasu and Jia, Menglin and Kirchenbauer, John and Qadri, Rifaa and Cai, Zikui and Bhatele, Abhinav and Huang, Furong and Goldstein, Tom},
+  booktitle={International Conference on Computer Vision (ICCV)},
+  year={2025}
+}
+```
 
 ## Acknowledgements
 

@@ -2,7 +2,7 @@
 
 *International Conference on Computer Vision (ICCV), 2025 | Hawai'i* :hibiscus:
 
-<br>
+[ [**arXiv**](https://arxiv.org/abs/2505.22664) ]
 
 The code is minimally :bubbles: structured for general language and vision-language model training, with torch FSDP/DDP in a single `train.py` file.
 Models are loaded from [transformers](https://github.com/huggingface/transformers).
